@@ -1,4 +1,12 @@
-import type { Dispatch, SetStateAction } from 'react';
+'use client';
+
+import {
+  MutableRefObject,
+  useEffect,
+  useRef,
+  type Dispatch,
+  type SetStateAction,
+} from 'react';
 import {
   Dialog,
   DialogContent,
@@ -17,9 +25,20 @@ const LoginModal = ({
   isOpen: boolean;
   setIsOpen: Dispatch<SetStateAction<boolean>>;
 }) => {
+  const dialogRef: MutableRefObject<HTMLDivElement | null> = useRef(null);
+
+  useEffect(() => {
+    if (isOpen && dialogRef.current) {
+      dialogRef.current.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+  }, [isOpen]);
+
   return (
     <Dialog onOpenChange={setIsOpen} open={isOpen}>
-      <DialogContent className="absolute z-[9999999]">
+      <DialogContent
+        ref={dialogRef}
+        className="absolute z-[9999999] left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2"
+      >
         <DialogHeader>
           <div className="relative mx-auto w-24 h-24 mb-2">
             <Image
