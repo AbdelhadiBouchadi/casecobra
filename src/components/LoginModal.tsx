@@ -29,7 +29,12 @@ const LoginModal = ({
 
   useEffect(() => {
     if (isOpen && dialogRef.current) {
-      dialogRef.current.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      setTimeout(() => {
+        dialogRef.current?.scrollIntoView({
+          behavior: 'smooth',
+          block: 'center',
+        });
+      }, 0);
     }
   }, [isOpen]);
 
