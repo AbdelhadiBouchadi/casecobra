@@ -40,7 +40,7 @@ const DesignPreview = ({ configuration }: { configuration: Configuration }) => {
     totalPrice += PRODUCT_PRICES.material.polycarbonate;
   if (finish === 'textured') totalPrice += PRODUCT_PRICES.finish.textured;
 
-  const { mutate: createPaymentSession } = useMutation({
+  const { mutate: createPaymentSession, isPending } = useMutation({
     mutationKey: ['get-checkout-session'],
     mutationFn: createCheckoutSession,
     onSuccess: ({ url }) => {
@@ -84,7 +84,7 @@ const DesignPreview = ({ configuration }: { configuration: Configuration }) => {
       <div className="mt-20 grid grid-cols-1 text-sm sm:grid-cols-12 sm:grid-rows-1 sm:gap-x-6 md:gap-x-8 lg:gap-x-12">
         <div className="sm:col-span-4 md:col-span-3 md:row-span-2 md:row-end-2 ">
           <Phone
-            className={cn(`bg-${tw}`)}
+            className={cn(`bg-${tw}`, 'max-w-[150px] md:max-w-full ')}
             imgSrc={configuration.croppedImageUrl!}
           />
         </div>
@@ -161,6 +161,9 @@ const DesignPreview = ({ configuration }: { configuration: Configuration }) => {
               <Button
                 onClick={() => handleCheckout()}
                 className="px-4 sm:px-6 lg:px-8"
+                isLoading={isPending}
+                disabled={isPending}
+                loadingText="Redirecting"
               >
                 Check out <ArrowRight className="h-4 w-4 ml-1.5 inline" />
               </Button>
